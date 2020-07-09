@@ -8,8 +8,8 @@ namespace SimulatedAnnealing.Services
 {
     public interface ITargetService
     {
-        List<Color> GetPixelArray();  
-        Target GetTarget();      
+        List<Color> GetPixelArray();
+        Target GetTarget();
     };
 
     public class TargetService : ITargetService
@@ -31,9 +31,9 @@ namespace SimulatedAnnealing.Services
         {
             var pixelArray = new List<Color> {};
 
-            for (int w = 0; w < _width; w++)
+            for (int h = 0; h < _height; h++)
             {
-                for (int h = 0; h < _height; h++)
+                for (int w = 0; w < _width; w++)
                 {
                     pixelArray.Add(_target.GetPixel(w, h));
                 }

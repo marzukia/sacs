@@ -8,30 +8,28 @@ namespace SimulatedAnnealing
 {
     class Program
     {
-        public string Filepath = "target.jpg";
-        public double StartingTemperature = 1;
-        public long Permutations = 100;
-
-        private Target _target;
-
-        private ITargetService _targetService;
-        private IGenerationService _generationService;
-
-        public Program()
-        {
-            _targetService = new TargetService(Filepath);
-            _target = _targetService.GetTarget();
-            _generationService = new GenerationService(
-                _target, StartingTemperature, Permutations);
-        }
-
         static void Main(string[] args)
         {
-            var gen1 = _generationService.CreateGeneration();
-            Console.WriteLine(gen1.Loss);
+            string filepath = "target.jpg";
+            double startingTemperature = 1;
+            long iterations = (long)10e7;
 
-            var gen2 = _generationService.CreateNextGeneration(gen1);
-            Console.WriteLine(gen2.Loss);
+            ITargetService _targetService = new TargetService(filepath);
+            Target _target = _targetService.GetTarget();
+            IGenerationService _generationService = new GenerationService(
+                _target, startingTemperature, iterations);
+
+            var gen = _generationService.CreateGeneration();
+            for (int i = 0; i < iterations; i++)
+            {
+                gen = _generationService.CreateNextGeneration(gen);
+
+                if (i % 100000 == 0)
+                {
+                    Console.WriteLine(gen.Loss);
+                    _generationService.SaveBitMap(gen, $"output/{i}.bmp");
+                };
+            }
         }
     }
 }

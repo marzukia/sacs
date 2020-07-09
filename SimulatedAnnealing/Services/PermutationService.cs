@@ -18,7 +18,7 @@ namespace SimulatedAnnealing.Services
 
         public void PopulatePixelArray(Permutation permutation)
         {
-            var pixelArray = new List<Color>() {};
+            var pixels = new List<Color>() {};
 
             for (int w = 0; w < permutation.Width; w++)
             {
@@ -27,28 +27,35 @@ namespace SimulatedAnnealing.Services
                     int r = rng.Next(0, 255);
                     int g = rng.Next(0, 255);
                     int b = rng.Next(0, 255);
-                    pixelArray.Add(Color.FromArgb(r, g, b));
+                    pixels.Add(Color.FromArgb(r, g, b));
                 };
             };
+
+            permutation.PixelArray = pixels;
         }
 
         public void MutatePixelArray(Permutation permutation, double temperature)
         {
-            var pixelArray = permutation.PixelArray.Clone();
+            var currentPixels = permutation.CopyPixelArray();
+            var pixels = new List<Color>() {};
 
-            foreach (var pixel in pixelArray)
+            foreach (var pixel in currentPixels)
             {
                 if (rng.NextDouble() <= temperature)
                 {
-                    int r = rng.Next(0, 255); 
-                    int g = rng.Next(0, 255); 
+                    int r = rng.Next(0, 255);
+                    int g = rng.Next(0, 255);
                     int b = rng.Next(0, 255);
 
-                    pixel = Color.FromArgb(r, g, b);
-                };
+                    pixels.Add(Color.FromArgb(r, g, b));
+                }
+                else
+                {
+                    pixels.Add(pixel);
+                }
             };
 
-            permutation.PixelArray = pixelArray;
+            permutation.PixelArray = pixels;
         }
    };
 }

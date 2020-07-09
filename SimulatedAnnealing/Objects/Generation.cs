@@ -10,16 +10,16 @@ namespace SimulatedAnnealing.Objects
 
         public Generation(Permutation permutation, long iteration)
         {
-            Permutation = permutation.Clone();
+            Permutation = permutation.DeepCopy();
             Iteration = iteration;
         }
 
         public Generation DeepCopy()
         {
             var clone = (Generation) this.MemberwiseClone();
-            other.Permutation = Permutation.DeepCopy();
-            other.Iteration = Itertation;
-            other.Loss = Loss;
+            clone.Permutation = Permutation.DeepCopy();
+            clone.Iteration = Iteration;
+            clone.Loss = Loss;
 
             return clone;
         }

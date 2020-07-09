@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
 
@@ -18,9 +20,21 @@ namespace SimulatedAnnealing.Objects
         public Permutation DeepCopy()
         {
             var clone = (Permutation) this.MemberwiseClone();
-            clone.PixelArray = PixelArray.Clone();
+            clone.PixelArray = CopyPixelArray();
             clone.Width = Width;
             clone.Height = Height;
+
+            return clone;
+        }
+
+        public List<Color> CopyPixelArray()
+        {
+            var clone = new List<Color>() {};
+
+            foreach (var pixel in PixelArray)
+            {
+                clone.Add(Color.FromArgb(pixel.R, pixel.G, pixel.B));
+            };
 
             return clone;
         }
